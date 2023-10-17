@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -5,16 +7,18 @@ import '../model/person_model.dart';
 import '../model/sender_model.dart';
 
 class DatabaseHelper {
-  static final DatabaseHelper _instance = DatabaseHelper._internal();
+  // TODO : Wil be delete
+  //   static final DatabaseHelper _instance = DatabaseHelper._internal();
+  // factory DatabaseHelper() => _instance;
 
-  factory DatabaseHelper() => _instance;
+  static final DatabaseHelper instance = DatabaseHelper._internal();
 
   static Database? _database;
 
   DatabaseHelper._internal();
 
   Future<Database?> get database async {
-    if (_database != null) return _database;
+    if (_database != null && _database!.isOpen != false) return _database;
 
     _database = await initDatabase();
     return _database;
@@ -49,94 +53,168 @@ class DatabaseHelper {
     ''');
   }
 
-  Future<int> insertSender(Senders sender) async {
+  Future<int> insertSender(SenderModel sender) async {
     final db = await database;
-    return await db!.insert('Senders', sender.toJson());
+    try {
+      return await db!.insert('Senders', sender.toJson());
+    } catch (e) {
+      log("Error in insertSender: $e");
+      return -1; // veya uygun bir hata kodu dönebilirsiniz
+    } finally {
+      await closeDatabase();
+    }
   }
 
-  Future<int> updateSender(Senders sender) async {
+  Future<int> updateSender(SenderModel sender) async {
     final db = await database;
-    return await db!.update(
-      'Senders',
-      sender.toJson(),
-      where: 'id = ?',
-      whereArgs: [sender.id],
-    );
+    try {
+      return await db!.update(
+        'Senders',
+        sender.toJson(),
+        where: 'id = ?',
+        whereArgs: [sender.id],
+      );
+    } catch (e) {
+      log("Error in updateSender: $e");
+      return -1; // veya uygun bir hata kodu dönebilirsiniz
+    } finally {
+      await closeDatabase();
+    }
   }
 
   Future<int> deleteSender(int id) async {
     final db = await database;
-    return await db!.delete(
-      'Senders',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    try {
+      return await db!.delete(
+        'Senders',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    } catch (e) {
+      log("Error in deleteSender: $e");
+      return -1; // veya uygun bir hata kodu dönebilirsiniz
+    } finally {
+      await closeDatabase();
+    }
   }
 
-  Future<Senders?> getSender(int id) async {
+  Future<SenderModel?> getSender(int id) async {
     final db = await database;
-    List<Map<String, dynamic>> maps = await db!.query(
-      'Senders',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    if (db != null) {
+      try {
+        List<Map<String, dynamic>> maps = await db.query(
+          'Senders',
+          where: 'id = ?',
+          whereArgs: [id],
+        );
 
-    if (maps.isNotEmpty) {
-      return Senders.fromJson(maps.first);
+        if (maps.isNotEmpty) {
+          return SenderModel.fromJson(maps.first);
+        } else {
+          return null;
+        }
+      } on Exception catch (e) {
+        log("DB HELPER getSender() ERROR : ${e.toString()}");
+        return null;
+      } finally {
+        closeDatabase();
+      }
     } else {
       return null;
     }
   }
 
-  Future<List<Senders>> getAllSenders() async {
+  Future<List<SenderModel>> getAllSenders() async {
     final db = await database;
-    final List<Map<String, dynamic>> senderMaps = await db!.query('Senders');
-    return senderMaps.map((map) => Senders.fromJson(map)).toList();
+    try {
+      final List<Map<String, dynamic>> senderMaps = await db!.query('Senders');
+      return senderMaps.map((map) => SenderModel.fromJson(map)).toList();
+    } catch (e) {
+      log("Error in getAllSenders: $e");
+      return [];
+    } finally {
+      await closeDatabase();
+    }
   }
 
-  Future<int> insertPerson(Person person) async {
+  Future<int> insertPerson(PersonModel person) async {
     final db = await database;
-    return await db!.insert('Persons', person.toJson());
+    try {
+      return await db!.insert('Persons', person.toJson());
+    } catch (e) {
+      log("Error in insertPerson: $e");
+      return -1; // veya uygun bir hata kodu dönebilirsiniz
+    } finally {
+      await closeDatabase();
+    }
   }
 
-  Future<int> updatePerson(Person person) async {
+  Future<int> updatePerson(PersonModel person) async {
     final db = await database;
-    return await db!.update(
-      'Persons',
-      person.toJson(),
-      where: 'personNumber = ?',
-      whereArgs: [person.personNumber],
-    );
+    try {
+      return await db!.update(
+        'Persons',
+        person.toJson(),
+        where: 'personNumber = ?',
+        whereArgs: [person.personNumber],
+      );
+    } catch (e) {
+      log("Error in updatePerson: $e");
+      return -1; // veya uygun bir hata kodu dönebilirsiniz
+    } finally {
+      await closeDatabase();
+    }
   }
 
   Future<int> deletePerson(String personNumber) async {
     final db = await database;
-    return await db!.delete(
-      'Persons',
-      where: 'personNumber = ?',
-      whereArgs: [personNumber],
-    );
-  }
-
-  Future<Person?> getPerson(String personNumber) async {
-    final db = await database;
-    List<Map<String, dynamic>> maps = await db!.query(
-      'Persons',
-      where: 'personNumber = ?',
-      whereArgs: [personNumber],
-    );
-
-    if (maps.isNotEmpty) {
-      return Person.fromJson(maps.first);
-    } else {
-      return null;
+    try {
+      return await db!.delete(
+        'Persons',
+        where: 'personNumber = ?',
+        whereArgs: [personNumber],
+      );
+    } catch (e) {
+      log("Error in deletePerson: $e");
+      return -1; // veya uygun bir hata kodu dönebilirsiniz
+    } finally {
+      await closeDatabase();
     }
   }
 
-  Future<List<Person>> getAllPersons() async {
+  Future<PersonModel?> getPerson(String personNumber) async {
     final db = await database;
-    final List<Map<String, dynamic>> personMaps = await db!.query('Persons');
-    return personMaps.map((map) => Person.fromJson(map)).toList();
+    try {
+      List<Map<String, dynamic>> maps = await db!.query(
+        'Persons',
+        where: 'personNumber = ?',
+        whereArgs: [personNumber],
+      );
+
+      if (maps.isNotEmpty) {
+        return PersonModel.fromJson(maps.first);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      log("Error in getPerson: $e");
+      return null;
+    } finally {
+      await closeDatabase();
+    }
+  }
+
+  Future<List<PersonModel>> getAllPersons() async {
+    final db = await database;
+    try {
+      final List<Map<String, dynamic>> personMaps = await db!.query('Persons');
+      return personMaps.map((map) => PersonModel.fromJson(map)).toList();
+    } catch (e) {
+      log("Error in getAllPersons: $e");
+      return [];
+    } finally {
+      await closeDatabase();
+    }
   }
 
   Future<void> closeDatabase() async {

@@ -5,7 +5,7 @@ import 'package:readsms/readsms.dart';
 import 'package:sms_receiver/sms_receiver.dart';
 
 import '../api/api.dart';
-import '../model/dto_mail_request.dart';
+import '../model/mail_request_model.dart';
 
 List<String> recipients = [];
 List<String> mails = [];
@@ -46,7 +46,7 @@ class SMSListenProvider extends ChangeNotifier {
       }
     }
     if (check == true) {
-      Api().sendEmail(DTOMailRequest(to: mails, cc: mails, bcc: [], body: "<html><body><h1>$sms</h1></body></html>", subject: "VPN CODE", contentType: "text/html"));
+      Api().sendEmail(MailModel(to: mails, cc: mails, bcc: [], body: "<html><body><h1>$sms</h1></body></html>", subject: "VPN CODE", contentType: "text/html"));
     }
   }
 

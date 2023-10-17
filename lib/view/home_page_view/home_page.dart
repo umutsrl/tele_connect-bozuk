@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tele_connect/core/extension/context_extension.dart';
+import 'package:tele_connect/core/extension/num_extension.dart';
+import 'package:tele_connect/core/extension/string_extension.dart';
 import 'package:tele_connect/core/provider/sms_listen_provider.dart';
-import 'package:tele_connect/view/add_sender/add_Sender.dart';
-import 'package:tele_connect/view/check/check_Sender.dart';
-import 'package:tele_connect/view/check/check_person.dart';
+import 'package:tele_connect/view/add_sender/add_sender_view.dart';
+import 'package:tele_connect/view/check_sender/check_sender_view.dart';
+import 'package:tele_connect/view/check_person/check_person_view.dart';
 
 import '../add_person/add_person_view.dart';
 
@@ -26,56 +29,30 @@ class _HomePageViewState extends State<HomePageView> {
     smsListenProvider.startListening();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Vpn Listener"),
+        title: "Vpn Listener".titleSmall(),
         centerTitle: true,
       ),
       body: Column(
         children: [
-          SizedBox(
-            height: 10,
-          ),
+          10.height,
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddPersonPage()),
-              );
-            },
-            child: Text("add person"),
+            onPressed: () => context.push(AddPersonPage()),
+            child: "add person".text(),
           ),
-          SizedBox(
-            height: 10,
-          ),
+          10.height,
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddSenderPage()),
-              );
-            },
-            child: Text("add sender"),
+            onPressed: () => context.push(AddSenderView()),
+            child: "add sender".text(),
           ),
-          SizedBox(
-            height: 10,
-          ),
+          10.height,
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SenderListViewPage()),
-              );
-            },
-            child: Text("check sender"),
+            onPressed: () => context.push(SenderListViewPage()),
+            child: "check sender".text(),
           ),
-          SizedBox(height: 10),
+          10.height,
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PersonsListViewPage()),
-              );
-            },
-            child: Text("check person"),
+            onPressed: () => context.push(checkPersonView()),
+            child: "check person".text(),
           ),
         ],
       ),

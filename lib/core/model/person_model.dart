@@ -1,10 +1,10 @@
-class Person {
+class PersonModel {
   final String personName;
   final String personNumber;
   final String personEmail;
   final String personCountryCode;
 
-  Person({
+  PersonModel({
     required this.personName,
     required this.personNumber,
     required this.personEmail,
@@ -20,8 +20,8 @@ class Person {
     };
   }
 
-  factory Person.fromJson(Map<String, dynamic> json) {
-    return Person(
+  factory PersonModel.fromJson(Map<String, dynamic> json) {
+    return PersonModel(
       personName: json['personName'],
       personNumber: json['personNumber'],
       personEmail: json['personEmail'],

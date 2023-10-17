@@ -55,6 +55,10 @@ dependencies:
 
   flutter_local_notifications: ^13.0.0  
   sqflite: ^2.3.0
+  mobx: ^2.2.0
+  flutter_mobx: ^2.1.0
+  mobx_codegen: ^2.4.0
+  json_annotation: ^4.8.1
   
 dev_dependencies:
   flutter_test:
@@ -80,8 +84,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - asset/image/
+  # assets:
+  #  - asset/image/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

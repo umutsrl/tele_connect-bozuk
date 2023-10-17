@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
-import '../model/dto_mail_request.dart';
+import '../model/mail_request_model.dart';
 
 class Api {
-  Future sendEmail(DTOMailRequest data) async {
+  Future sendEmail(MailModel data) async {
     try {
       Dio dio = Dio();
 

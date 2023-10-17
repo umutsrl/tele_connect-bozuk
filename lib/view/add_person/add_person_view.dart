@@ -1,7 +1,10 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
-import '../../core/helper/db_helper.dart';
-import '../../core/model/person_model.dart'; // Adjust the import based on your folder structure
+import 'package:flutter/material.dart';
+import 'package:tele_connect/core/extension/num_extension.dart';
+import 'package:tele_connect/core/extension/text_editing_controller_extension.dart';
+import 'package:tele_connect/core/extension/widget_extension.dart';
+import 'add_person_viewmodel.dart'; // Adjust the import based on your folder structure
 
 class AddPersonPage extends StatefulWidget {
   @override
@@ -9,61 +12,36 @@ class AddPersonPage extends StatefulWidget {
 }
 
 class _AddPersonPageState extends State<AddPersonPage> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _numberController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _countryCodeController = TextEditingController();
+  late AddPersonViewmodel viewModel;
+
+  @override
+  void initState() {
+    viewModel = AddPersonViewmodel();
+    viewModel.init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    String persons = viewModel.addPersonList.map((person) => person.controller.textField(decoration: _decoration(person.labelText))).toList().toString();
+    log(persons, name: "persons");
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Person'),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
-            ),
-            TextField(
-              controller: _numberController,
-              decoration: InputDecoration(labelText: 'Number'),
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _countryCodeController,
-              decoration: InputDecoration(labelText: 'Country Code'),
-            ),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () async {
-                Person person = Person(
-                  personName: _nameController.text,
-                  personNumber: _numberController.text,
-                  personEmail: _emailController.text,
-                  personCountryCode: _countryCodeController.text,
-                );
-
-                final dbHelper = DatabaseHelper();
-                await dbHelper.insertPerson(person);
-              },
-              child: Text('Save'),
-            ),
-          ],
-        ),
-      ),
+      appBar: AppBar(title: Text('Add Person'), leading: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back))),
+      body: Column(
+        children: [
+          ...viewModel.addPersonList.map((person) => person.controller.textField(decoration: _decoration(person.labelText))).toList(),
+          20.height,
+          ElevatedButton(
+            onPressed: viewModel.save,
+            child: Text('Save'),
+          ),
+        ],
+      ).paddingAllMedium,
     );
   }
+
+  InputDecoration _decoration(String labelText) => InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(),
+      );
 }
