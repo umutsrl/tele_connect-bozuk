@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:tele_connect/core/extension/text_editing_controller_extension.dart';
 import 'package:tele_connect/core/extension/widget_extension.dart';
-import 'package:tele_connect/core/helper/db_helper.dart';
 import 'package:tele_connect/view/add_sender/add_sender_view_model.dart';
-import '../../core/model/sender_model.dart';
 
 class AddSenderView extends StatefulWidget {
   const AddSenderView({super.key});

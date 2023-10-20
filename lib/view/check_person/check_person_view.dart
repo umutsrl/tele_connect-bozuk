@@ -52,10 +52,9 @@ class _checkPersonViewState extends State<checkPersonView> {
                 title: Text(person.personName),
                 subtitle: Text(person.personNumber),
                 trailing: Checkbox(
-                    value: recipients.contains(person.personNumber),
+                    value: provider.recipients.contains(person.personNumber),
                     onChanged: (isChecked) {
-                      _checkSenderViewModel.toggleRecipient(person.personNumber, person.personEmail, isChecked!);
-                      setState(() {});
+                      provider.toggleRecipient(person.personNumber, person.personEmail, isChecked!);
                     }
 
                     // Alternatif : Bu şekilde de yazılabilir hangisi daha uygun diye sor.
@@ -67,7 +66,10 @@ class _checkPersonViewState extends State<checkPersonView> {
         });
       }),
       floatingActionButton: FloatingActionButton(
-        onPressed: _checkSenderViewModel.printer,
+        onPressed: () {
+          final provider = Provider.of<SMSListenProvider>(context, listen: false);
+          provider.printRecipientAndMails();
+        },
         child: const Icon(Icons.check),
       ),
     );

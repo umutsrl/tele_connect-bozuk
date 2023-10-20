@@ -3,7 +3,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../core/helper/db_helper.dart';
 import '../../core/model/person_model.dart';
-part 'add_person_viewmodel.g.dart';
+part 'add_person_view_model.g.dart';
 
 class AddPersonViewmodel = _AddPersonViewmodelBase with _$AddPersonViewmodel;
 

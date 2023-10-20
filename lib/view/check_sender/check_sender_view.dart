@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:tele_connect/core/provider/sms_listen_provider.dart';
 import '../../core/helper/db_helper.dart';
-import 'check_sender_viewmodel.dart';
+import 'check_sender_view_model.dart';
 
 class SenderListViewPage extends StatefulWidget {
   @override
@@ -48,10 +48,9 @@ class _SenderListViewPageState extends State<SenderListViewPage> {
                     title: Text(sender.senderName),
                     subtitle: Text(sender.senderNumber),
                     trailing: Checkbox(
-                      value: sendernumbers.contains(sender.senderNumber),
+                      value: provider.sendernumbers.contains(sender.senderNumber),
                       onChanged: (secildiMi) {
-                        viewModel.toggleSender(sender.senderNumber);
-                        setState(() {});
+                        provider.toggleSender(sender.senderNumber);
                       },
                     ),
                   );
@@ -63,7 +62,8 @@ class _SenderListViewPageState extends State<SenderListViewPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          viewModel.printsendernum();
+          final provider = Provider.of<SMSListenProvider>(context, listen: false);
+          provider.printsendernum();
         },
         child: Icon(Icons.check),
       ),

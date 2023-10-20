@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'check_sender_viewmodel.dart';
+part of 'check_sender_view_model.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -23,31 +23,6 @@ mixin _$CheckSenderViewmodel on _CheckSenderViewmodelBase, Store {
     _$sendersListesiAtom.reportWrite(value, super.sendersListesi, () {
       super.sendersListesi = value;
     });
-  }
-
-  late final _$_CheckSenderViewmodelBaseActionController =
-      ActionController(name: '_CheckSenderViewmodelBase', context: context);
-
-  @override
-  void toggleSender(String senderNumber) {
-    final _$actionInfo = _$_CheckSenderViewmodelBaseActionController
-        .startAction(name: '_CheckSenderViewmodelBase.toggleSender');
-    try {
-      return super.toggleSender(senderNumber);
-    } finally {
-      _$_CheckSenderViewmodelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void printsendernum() {
-    final _$actionInfo = _$_CheckSenderViewmodelBaseActionController
-        .startAction(name: '_CheckSenderViewmodelBase.printsendernum');
-    try {
-      return super.printsendernum();
-    } finally {
-      _$_CheckSenderViewmodelBaseActionController.endAction(_$actionInfo);
-    }
   }
 
   @override

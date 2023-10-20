@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tele_connect/core/extension/num_extension.dart';
 import 'package:tele_connect/core/extension/text_editing_controller_extension.dart';
 import 'package:tele_connect/core/extension/widget_extension.dart';
-import 'add_person_viewmodel.dart'; // Adjust the import based on your folder structure
+import 'add_person_view_model.dart'; // Adjust the import based on your folder structure
 
 class AddPersonPage extends StatefulWidget {
   @override

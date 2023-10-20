@@ -40,18 +40,6 @@ mixin _$CheckSenderViewModel on _CheckSenderViewModelBase, Store {
   }
 
   @override
-  void toggleRecipient(
-      String personNumber, String personEmail, bool isChecked) {
-    final _$actionInfo = _$_CheckSenderViewModelBaseActionController
-        .startAction(name: '_CheckSenderViewModelBase.toggleRecipient');
-    try {
-      return super.toggleRecipient(personNumber, personEmail, isChecked);
-    } finally {
-      _$_CheckSenderViewModelBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 persons: ${persons}

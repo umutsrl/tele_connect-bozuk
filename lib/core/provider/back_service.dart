@@ -7,7 +7,6 @@ import 'package:flutter_background_service_android/flutter_background_service_an
 import 'package:tele_connect/core/provider/sms_listen_provider.dart';
 
 Future<void> initializeService() async {
-  final SMSListenProvider readModel = SMSListenProvider();
   final service = FlutterBackgroundService();
   await service.configure(
     iosConfiguration: IosConfiguration(

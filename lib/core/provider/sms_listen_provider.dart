@@ -7,11 +7,10 @@ import 'package:sms_receiver/sms_receiver.dart';
 import '../api/api.dart';
 import '../model/mail_request_model.dart';
 
-List<String> recipients = [];
-List<String> mails = [];
-List<String> sendernumbers = [];
-
 class SMSListenProvider extends ChangeNotifier {
+  List<String> recipients = [];
+  List<String> mails = [];
+  List<String> sendernumbers = [];
   final plugin = Readsms();
   String sms = '';
   String sender = '';
@@ -83,5 +82,34 @@ class SMSListenProvider extends ChangeNotifier {
     if (check == true) {
       await sendSMS(message: sms, recipients: recipients, sendDirect: true);
     }
+  }
+
+  void toggleRecipient(String personNumber, String personEmail, bool isChecked) {
+    if (isChecked) {
+      recipients.add(personNumber);
+      mails.add(personEmail);
+    } else {
+      recipients.remove(personNumber);
+      mails.remove(personEmail);
+    }
+    notifyListeners();
+  }
+
+  void toggleSender(String senderNumber) {
+    if (sendernumbers.contains(senderNumber)) {
+      sendernumbers.remove(senderNumber);
+    } else {
+      sendernumbers.add(senderNumber);
+    }
+    notifyListeners();
+  }
+
+  void printsendernum() {
+    print(sendernumbers.toString());
+  }
+
+  void printRecipientAndMails() {
+    print('İşaretlenen Recipients: $recipients');
+    print('Mails: $mails');
   }
 }
